@@ -1,0 +1,14 @@
+/* stylelint-disable no-empty-source */
+/* stylelint-disable selector-class-pattern */
+.dropin-cart-item__remove {
+    top: -.7rem;
+    min-width: inherit;
+    min-height: inherit;
+    width: var(--spacing-big);
+    height: var(--spacing-big);
+    padding: var(--spacing-xxsmall);
+}
+
+a.cart-estimate-shipping__link {
+    text-underline-offset: var(--spacing-xxsmall);
+}

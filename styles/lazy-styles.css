@@ -1,1 +1,71 @@
 /* add global styles that can be loaded post LCP here */
+h2#testimonials {
+    text-align: center;
+    font-size: 28px;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.section.footer-promo {
+    background-color: #E4C7B4;
+    padding: 10px;
+
+    h2 {
+        text-align: center;
+        font-size: 20px;
+        line-height: 1.2;
+    }
+}
+
+@keyframes bganimation {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+
+@media (width >=600px) {
+    .section.footer-promo {
+        h2 {
+            font-size: 36px;
+        }
+    }
+}
+
+@media (width >=900px) {
+    .section.footer-promo {
+        h2 {
+            font-size: 36px;
+        }
+    }
+
+    h2#testimonials {
+        font-size: 48px;
+    }
+}
+
+/* skeleton styles */
+
+.skeleton-wrapper {
+    background: #eee;
+    background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+    border-radius: 5px;
+    background-size: 200% 100%;
+    animation: 1.5s shine linear infinite;
+}
+  
+@keyframes shine {
+    to {
+        background-position-x: -200%;
+    }
+}
+
+/* --- */
