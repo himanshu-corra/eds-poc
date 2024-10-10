@@ -66,7 +66,7 @@ export default function decorate(block) {
 
   async function proceedEmailSubscription(email) {
     buttonElement.disabled = true;
-    buttonElement.innerHTML = "In Progress ...";
+    buttonElement.innerHTML = "Processing ...";
     const token = getSignInToken();
 
     try {
