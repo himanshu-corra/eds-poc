@@ -1,0 +1,100 @@
+/* stylelint-disable no-empty-source */
+
+footer .newsletter-wrapper {
+    padding: 2rem;
+    background-color: var(--color-secondary-900);
+    border-bottom: 1px solid var(--color-neutral-400);
+    border-top: 1px solid var(--color-neutral-400);
+}
+
+#newsletter-form {
+    display: flex;
+    align-items: center;
+}
+
+.newsletter-wrapper input,
+.newsletter-wrapper select,
+.newsletter-wrapper textarea {
+    font-size: var(--body-font-size-s);
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    padding: 12px 8px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+    background-color: var(--background-color);
+    height: auto;
+    line-height: normal;
+}
+
+.newsletter-wrapper form .field-wrapper {
+    display: block;
+    padding: 0;
+    position: relative;
+
+    label {
+        position: absolute;
+        cursor: text;
+        z-index: 2;
+        top: 12px;
+        left: 4px;
+        font-size: 14px;
+        padding: 0 4px;
+        transition: all 0.3s ease;
+        text-transform: capitalize;
+        pointer-events: none;
+    }
+
+    input:focus + label,
+    input:not(:placeholder-shown) + label {
+        font-size: 11px;
+        top: -9px;
+        background: var(--color-neutral-50);
+    }
+}
+
+.newsletter-wrapper .form-error {
+    color: var(--color-alert-800);
+}
+
+.newsletter-wrapper .form-success {
+    color: var(--color-positive-800);
+}
+
+.newsletter-wrapper .text-wrapper {
+    width: 70%;
+}
+
+.newsletter-wrapper .text-wrapper input {
+    border-radius: 0;
+    padding: 8px;
+    font: var(--type-body-1-default-font);
+    height: auto;
+}
+
+.newsletter-wrapper .submit-wrapper {
+    width: 30%;
+}
+
+.newsletter-wrapper .submit-wrapper button {
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 4.2rem;
+    align-items: center;
+    border-radius: 0;
+    padding: 0.2em 1rem;
+    box-sizing: border-box;
+    line-height: normal;
+}
+
+@media (width >= 900px) {
+    footer .newsletter-wrapper {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        width: 28%;
+    }
+}
