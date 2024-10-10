@@ -14,92 +14,10 @@ mutation(
 `;
 
 export default function decorate(block) {
-  // Create form elements
-  const inputTextElement = createInputElement({
-    name: 'Enter your email address',
-    id: 'newsletter-email',
-    type: 'text',
-    className: 'newsletter-email',
-    placeholder: '',
-  });
-
-  const labelElement = createLabelElement({
-    for: 'newsletter',
-    id: 'newsletter-email-label',
-    text: 'Enter your email address',
-  });
-
-  const buttonElement = createButtonElement({
-    className: 'button',
-    type: 'submit',
-    text: 'Subscribe',
-  });
-
-  // Create the wrapper divs
-  inputTextElement.setAttribute('aria-labelledby', 'newsletter-email-label');
-  const textWrapper = createDivWrapper('text-wrapper', [
-    inputTextElement,
-    labelElement,
-  ]);
-  const submitWrapper = createDivWrapper('submit-wrapper', [buttonElement]);
-
-  // Create form and append divs
-  const formElement = document.createElement('form');
-  formElement.id = 'newsletter-form';
-  formElement.append(textWrapper, submitWrapper);
-
-  // Message container for error/success messages
-  const messageContainer = document.createElement('div');
-  messageContainer.id = 'form-message';
-
-  // Form submit event
-  formElement.onsubmit = (e) => {
-    e.preventDefault();
-    const email = inputTextElement.value;
-
-    if (validateEmail(email)) {
-      proceedEmailSubscription(email);
-    } else {
-      showMessage('Please enter a valid email address!', 'error');
-    }
-  };
-
-  async function proceedEmailSubscription(email) {
-    buttonElement.disabled = true;
-    buttonElement.innerHTML = 'Processing ...';
-    const token = getSignInToken();
-
-    try {
-      ({ data, errors } = await performMonolithGraphQLQuery(
-        newsletterSubscrioptionMutation,
-        { email: email },
-        false,
-        token
-      ));
-      if (data && data?.subscribeEmailToNewsletter?.status) {
-        formElement.reset();
-        showMessage('Thank you for your subscription.!', 'success');
-      } else if (errors && errors.message) {
-        showMessage(errors.message, 'error');
-      }
-    } catch (err) {
-      console.error(err);
-      showMessage(
-        'Oops! Something went wrong. Please try again later.',
-        'error'
-      );
-    } finally {
-      resetNewsletterForm();
-    }
-  }
-
-  function resetNewsletterForm() {
-    buttonElement.disabled = false;
-    buttonElement.innerHTML = 'Subscribe';
-  }
-
   /** Helper function to create input element */
-  function createInputElement({ name, id, type, className, placeholder }) {
+  function createInputElement({
+    name, id, type, className, placeholder,
+  }) {
     const input = document.createElement('input');
     input.name = name;
     input.id = id;
@@ -141,12 +59,94 @@ export default function decorate(block) {
     return regex.test(email);
   }
 
+  // Create form elements
+  const inputTextElement = createInputElement({
+    name: 'Enter your email address',
+    id: 'newsletter-email',
+    type: 'text',
+    className: 'newsletter-email',
+    placeholder: '',
+  });
+
+  const labelElement = createLabelElement({
+    for: 'newsletter',
+    id: 'newsletter-email-label',
+    text: 'Enter your email address',
+  });
+
+  const buttonElement = createButtonElement({
+    className: 'button',
+    type: 'submit',
+    text: 'Subscribe',
+  });
+
+  // Create the wrapper divs
+  inputTextElement.setAttribute('aria-labelledby', 'newsletter-email-label');
+  const textWrapper = createDivWrapper('text-wrapper', [
+    inputTextElement,
+    labelElement,
+  ]);
+  const submitWrapper = createDivWrapper('submit-wrapper', [buttonElement]);
+
+  // Create form and append divs
+  const formElement = document.createElement('form');
+  formElement.id = 'newsletter-form';
+  formElement.append(textWrapper, submitWrapper);
+
+  // Message container for error/success messages
+  const messageContainer = document.createElement('div');
+  messageContainer.id = 'form-message';
+
+  function resetNewsletterForm() {
+    buttonElement.disabled = false;
+    buttonElement.innerHTML = 'Subscribe';
+  }
+
   /** Function to show message (error or success) */
   function showMessage(message, type) {
-    messageContainer.className =
-      type === 'error' ? 'form-error' : 'form-success';
+    messageContainer.className = type === 'error' ? 'form-error' : 'form-success';
     messageContainer.innerHTML = message;
   }
+
+  async function proceedEmailSubscription(email) {
+    buttonElement.disabled = true;
+    buttonElement.innerHTML = 'Processing ...';
+    const token = getSignInToken();
+
+    try {
+      let data = [];
+      let errors = [];
+      ({ data, errors } = await performMonolithGraphQLQuery(
+        newsletterSubscrioptionMutation,
+        { email: email },
+        false,
+        token,
+      ));
+      if (data && data?.subscribeEmailToNewsletter?.status) {
+        formElement.reset();
+        showMessage('Thank you for your subscription.!', 'success');
+      } else if (errors && errors.message) {
+        showMessage(errors.message, 'error');
+      }
+    } catch (err) {
+      console.log(err);
+      showMessage('Oops! Something went wrong. Please try again later.', 'error');
+    } finally {
+      resetNewsletterForm();
+    }
+  }
+
+  // Form submit event
+  formElement.onsubmit = (e) => {
+    e.preventDefault();
+    const email = inputTextElement.value;
+
+    if (validateEmail(email)) {
+      proceedEmailSubscription(email);
+    } else {
+      showMessage('Please enter a valid email address!', 'error');
+    }
+  };
 
   // Empty the block and append the form
   block.textContent = '';
